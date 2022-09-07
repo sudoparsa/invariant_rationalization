@@ -94,7 +94,7 @@ def get_examples(fpath):
                 n += 1
                 continue
 
-            t = convert_to_unicode(line[0])
+            t = convert_to_unicode(line[2])
             y = float(convert_to_unicode(line[1]))
 
             ts.append(t)
