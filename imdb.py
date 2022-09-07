@@ -249,9 +249,9 @@ def get_imdb_datasets(data_dir, tr_pollution, max_seq_length=300, word_thres=2):
     t_dev_, y_dev_ = get_examples(os.path.join(data_dir, "dev.tsv"))
 
     ##### further split the provided dev into dev and test set
-    pos_idx = np.where(y_dev_ > 0.)[0]
+    pos_idx = np.where(y_dev_ > 6.)[0]
 
-    neg_idx = np.where(y_dev_ == 0.)[0]
+    neg_idx = np.where(y_dev_ < 5.)[0]
 
     dev_idx = np.concatenate(
         [pos_idx[0:len(pos_idx) // 2], neg_idx[0:len(neg_idx) // 2]],
