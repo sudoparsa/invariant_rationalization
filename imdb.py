@@ -161,8 +161,8 @@ def pollute_data(t, y, pollution):
     """
     num_envs = len(pollution)
 
-    pos_idx = np.where(y > 0.)[0]
-    neg_idx = np.where(y == 0.)[0]
+    pos_idx = np.where(y > 6.)[0]
+    neg_idx = np.where(y < 5.)[0]
 
     # shaffle these indexs
     np.random.shuffle(pos_idx)
