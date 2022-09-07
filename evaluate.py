@@ -5,9 +5,9 @@ def test_imdb(dataset, model):
     """
     Conventional testing of a classifier.
     """
-    avg_env_inv_acc = tf.contrib.eager.metrics.Accuracy("avg_env_inv_acc",
+    avg_env_inv_acc = tf.keras.metrics.Accuracy("avg_env_inv_acc",
                                                         dtype=tf.float32)
-    avg_env_enable_acc = tf.contrib.eager.metrics.Accuracy("avg_env_enable_acc",
+    avg_env_enable_acc = tf.keras.metrics.Accuracy("avg_env_enable_acc",
                                                            dtype=tf.float32)
 
     selected_bias = 0

@@ -12,9 +12,9 @@ def train_imdb(dataset, model, opts, step, args, show_rationale=False):
     env_enable_opt = opts[2]
 
     ### average loss
-    avg_env_inv_acc = tf.contrib.eager.metrics.Accuracy("avg_env_inv_acc",
+    avg_env_inv_acc = tf.keras.metrics.Accuracy("avg_env_inv_acc",
                                                         dtype=tf.float32)
-    avg_env_enable_acc = tf.contrib.eager.metrics.Accuracy("avg_env_enable_acc",
+    avg_env_enable_acc = tf.keras.metrics.Accuracy("avg_env_enable_acc",
                                                            dtype=tf.float32)
 
     selected_bias = 0
