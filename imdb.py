@@ -161,8 +161,8 @@ def pollute_data(t, y, pollution):
     """
     num_envs = len(pollution)
 
-    pos_idx = np.where(y > 6.)[0]
-    neg_idx = np.where(y < 5.)[0]
+    pos_idx = np.where(y > 0.)[0]
+    neg_idx = np.where(y == 0.)[0]
 
     # shaffle these indexs
     np.random.shuffle(pos_idx)
@@ -221,12 +221,12 @@ def pollute_data(t, y, pollution):
         envs.append(env_id)
 
         if np.random.choice([0, 1], p=[1. - rate, rate]) == 1:
-            if y[idx] > 6.:
+            if y[idx] == 1.:
                 text = ", " + t_
             else:
                 text = ". " + t_
         else:
-            if y[idx] > 6.:
+            if y[idx] == 1.:
                 text = ". " + t_
             else:
                 text = ", " + t_
@@ -249,9 +249,9 @@ def get_imdb_datasets(data_dir, tr_pollution, max_seq_length=300, word_thres=2):
     t_dev_, y_dev_ = get_examples(os.path.join(data_dir, "dev.tsv"))
 
     ##### further split the provided dev into dev and test set
-    pos_idx = np.where(y_dev_ > 6.)[0]
+    pos_idx = np.where(y_dev_ > 0.)[0]
 
-    neg_idx = np.where(y_dev_ < 5.)[0]
+    neg_idx = np.where(y_dev_ == 0.)[0]
 
     dev_idx = np.concatenate(
         [pos_idx[0:len(pos_idx) // 2], neg_idx[0:len(neg_idx) // 2]],
