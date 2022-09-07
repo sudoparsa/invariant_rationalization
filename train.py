@@ -64,14 +64,14 @@ def train_imdb(dataset, model, opts, step, args, show_rationale=False):
 
         step += 1
 
-        avg_env_inv_acc(tf.argmax(env_inv_logits, axis=1, output_type=tf.int64),
-                        tf.argmax(labels, axis=1, output_type=tf.int64))
+        avg_env_inv_acc(tf.argmax(input=env_inv_logits, axis=1, output_type=tf.int64),
+                        tf.argmax(input=labels, axis=1, output_type=tf.int64))
         avg_env_enable_acc(
-            tf.argmax(env_enable_logits, axis=1, output_type=tf.int64),
-            tf.argmax(labels, axis=1, output_type=tf.int64))
+            tf.argmax(input=env_enable_logits, axis=1, output_type=tf.int64),
+            tf.argmax(input=labels, axis=1, output_type=tf.int64))
 
         # calculate the percentage that the added bias term is highlighted
-        selected_bias += tf.reduce_sum(rationale[:, 0, 1])
+        selected_bias += tf.reduce_sum(input_tensor=rationale[:, 0, 1])
         num_sample += inputs.get_shape().as_list()[0]
 
     bias_ = selected_bias / float(num_sample)
@@ -86,7 +86,7 @@ def train_imdb(dataset, model, opts, step, args, show_rationale=False):
     # show a generated rationale
     if show_rationale:
         print("----> [Train] visualizing rationale: groundtruth label: {:d}.".
-              format(tf.argmax(labels[0, :])),
+              format(tf.argmax(input=labels[0, :])),
               flush=True)
         show_binary_rationale(inputs[0, :].numpy(), rationale[0, :, 1].numpy(),
                               args.vocab.idx2word)

@@ -63,14 +63,14 @@ def inv_rat_loss(env_inv_logits, env_enable_logits, labels):
                           (batch_size, num_classes)        
         labels -- the groundtruth one-hot labels 
     """
-    env_inv_losses = tf.nn.softmax_cross_entropy_with_logits_v2(
+    env_inv_losses = tf.nn.softmax_cross_entropy_with_logits(
         logits=env_inv_logits, labels=labels)
 
-    env_enable_losses = tf.nn.softmax_cross_entropy_with_logits_v2(
+    env_enable_losses = tf.nn.softmax_cross_entropy_with_logits(
         logits=env_enable_logits, labels=labels)
 
-    env_inv_loss = tf.reduce_mean(env_inv_losses)
-    env_enable_loss = tf.reduce_mean(env_enable_losses)
+    env_inv_loss = tf.reduce_mean(input_tensor=env_inv_losses)
+    env_enable_loss = tf.reduce_mean(input_tensor=env_enable_losses)
 
     diff_loss = tf.math.maximum(0., env_inv_loss - env_enable_loss)
 
@@ -79,23 +79,23 @@ def inv_rat_loss(env_inv_logits, env_enable_logits, labels):
 
 def cal_sparsity_loss(z, mask, level):
     """
-    Exact sparsity loss in a batchwise sense. 
-    Inputs: 
+    Exact sparsity loss in a batchwise sense.
+    Inputs:
         z -- (batch_size, sequence_length)
         mask -- (batch_size, seq_length)
         level -- sparsity level
     """
-    sparsity = tf.reduce_sum(z) / tf.reduce_sum(mask)
+    sparsity = tf.reduce_sum(input_tensor=z) / tf.reduce_sum(input_tensor=mask)
     return tf.abs(sparsity - level)
 
 
 def cal_continuity_loss(z):
     """
     Compute the continuity loss.
-    Inputs:     
+    Inputs:
         z -- (batch_size, sequence_length)
     """
-    return tf.reduce_mean(tf.abs(z[:, 1:] - z[:, :-1]))
+    return tf.reduce_mean(input_tensor=tf.abs(z[:, 1:] - z[:, :-1]))
 
 
 def show_binary_rationale(ids, z, idx2word, tofile=False):

@@ -14,7 +14,7 @@ class Embedding(tf.keras.layers.Layer):
         super(Embedding, self).__init__()
 
         try:
-            init = tf.keras.initializers.Constant(pretrained_embedding)
+            init = tf.compat.v1.keras.initializers.Constant(pretrained_embedding)
             print("Initialize the embedding from a pre-trained matrix.")
         except:
             init = "uniform"
@@ -51,9 +51,9 @@ class RnnEncoder(tf.keras.layers.Layer):
 
     def call(self, x):
         """
-        Inputs: 
+        Inputs:
             x -- (batch_size, seq_length, input_dim)
-        Outputs: 
+        Outputs:
             y -- bidirectional (batch_size, seq_length, hidden_dim * 2)
         """
         h = self.rnn(x)
@@ -103,10 +103,10 @@ class InvRNN(tf.keras.Model):
         """
         Straight through sampling.
         Outputs:
-            z -- shape (batch_size, sequence_length, 2)        
+            z -- shape (batch_size, sequence_length, 2)
         """
         z = tf.nn.softmax(rationale_logits)
-        z_hard = tf.cast(tf.equal(z, tf.reduce_max(z, -1, keep_dims=True)),
+        z_hard = tf.cast(tf.equal(z, tf.reduce_max(input_tensor=z, axis=-1, keepdims=True)),
                          z.dtype)
         z = tf.stop_gradient(z_hard - z) + z
 
@@ -151,7 +151,7 @@ class InvRNN(tf.keras.Model):
 
         # aggregates hidden outputs via max pooling
         # shape -- (batch_size, hidden_dim * 2)
-        env_inv_enc_output = tf.reduce_max(env_inv_enc_outputs_, axis=1)
+        env_inv_enc_output = tf.reduce_max(input_tensor=env_inv_enc_outputs_, axis=1)
 
         # task prediction
         # shape -- (batch_size, num_classes)
@@ -181,7 +181,7 @@ class InvRNN(tf.keras.Model):
 
         # aggregates hidden outputs via max pooling
         # shape -- (batch_size, hidden_dim * 2)
-        env_enable_enc_output = tf.reduce_max(env_enable_enc_outputs_, axis=1)
+        env_enable_enc_output = tf.reduce_max(input_tensor=env_enable_enc_outputs_, axis=1)
 
         # task prediction
         # shape -- (batch_size, num_classes)
