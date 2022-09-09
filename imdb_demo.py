@@ -65,8 +65,8 @@ parser.add_argument('--embedding_dim',
 
 parser.add_argument('--rnn_dim',
                     type=int,
-                    default=100,
-                    help='RNN hidden dims [default: 100]')
+                    default=256,
+                    help='RNN hidden dims [default: 256]')
 
 parser.add_argument('--num_classes',
                     type=int,
